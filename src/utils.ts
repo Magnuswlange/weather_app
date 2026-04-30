@@ -1,7 +1,5 @@
 import { OneCallSchema, type OneCallData } from "./schemas/weatherSchema";
 
-const API_KEY: string = "REDACTED";
-
 export const getWeatherData = async ({
   lon,
   lat,
@@ -9,7 +7,7 @@ export const getWeatherData = async ({
   lon: number;
   lat: number;
 }): Promise<OneCallData> => {
-  const url: string = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${API_KEY}`;
+  const url: string = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${import.meta.env.OPENWEATHER_API_KEY}`;
   const res = await fetch(url);
 
   if (!res.ok) throw new Error(`Weather request failed: ${res.status}`);
