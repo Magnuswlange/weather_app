@@ -26,7 +26,7 @@ export default function Card({
         scale: 1.05,
         backgroundColor: "var(--color-secondary)",
         color: "var(--color-secondary-foreground)",
-        border: "1px solid var(--color-highlight)", // tailwind css zinc 950
+        border: "2px solid var(--color-highlight)", // tailwind css zinc 950
         cursor: "pointer",
       }}
       whileTap={{ scale: 0.95 }}
