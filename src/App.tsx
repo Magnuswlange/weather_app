@@ -20,11 +20,36 @@ export default function App() {
     console.log("Running useEffect");
 
     const fetchWeatherData = async () => {
+      // getUserCoords return a promise that will be resolved to a number[].
+      const getUserCoords = async (): Promise<number[]> => {
+        return new Promise((resolve, reject) => {
+          window.navigator.geolocation.getCurrentPosition(
+            // success callback
+            (position) => {
+              resolve([position.coords.latitude, position.coords.longitude]);
+            },
+            // error callback
+            (error) => {
+              reject(error);
+            },
+            // options object
+            {
+              enableHighAccuracy: true,
+            },
+          );
+        });
+      };
+
       try {
-        const data = await getWeatherData({ lon: 10.38831, lat: 55.39594 });
+        const coords: number[] = await getUserCoords();
+        const [lat, lon] = coords;
+        console.log(coords);
+
+        const data = await getWeatherData({ lat: lat, lon: lon });
         setData(data);
       } catch (e) {
-        console.error(e);
+        if (e instanceof Error) console.error(e.message);
+        console.error("Unknown error occured");
       }
     };
 
