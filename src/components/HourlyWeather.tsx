@@ -2,8 +2,8 @@ import Card from "./Card";
 import type { OneCallData } from "../schemas/weatherSchema";
 import { motion } from "motion/react";
 import { parentVariant, childVariant } from "../animationUtils";
-import { timeFmt } from "../utils";
 import WeatherIcon from "./WeatherIcon";
+import { timeFmt } from "../utils/formatters";
 
 type Props = {
   data: OneCallData;

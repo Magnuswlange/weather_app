@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { parentVariant, childVariant } from "../animationUtils";
 import type { OneCallData } from "../schemas/weatherSchema";
 import WeatherIcon from "./WeatherIcon";
-import { timeFmt } from "../utils";
+import { timeFmt } from "../utils/formatters";
 
 type Props = {
   data: OneCallData;

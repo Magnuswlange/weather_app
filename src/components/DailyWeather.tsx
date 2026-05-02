@@ -3,7 +3,7 @@ import type { OneCallData } from "../schemas/weatherSchema";
 import { childVariant, parentVariant } from "../animationUtils";
 import WeatherIcon from "./WeatherIcon";
 import Card from "./Card";
-import { dayFmt } from "../utils";
+import { dayFmt } from "../utils/formatters";
 
 type Props = {
   data: OneCallData;
