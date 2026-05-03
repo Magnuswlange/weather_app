@@ -34,10 +34,45 @@ export default function App() {
   return (
     <main>
       <CardContainer>
-        {data && <GoogleMapsCard lat={data.lat} lon={data.lon} />}
-        {data && <CurrentWeather data={data} />}
-        {data && <DailyWeather data={data} />}
-        {data && <HourlyWeather data={data} />}
+        {data && (
+          <CurrentWeather
+            className="col-span-1 row-span-1 md:row-span-2"
+            data={data}
+          />
+        )}
+        {data && (
+          <GoogleMapsCard
+            className="col-span-1 row-span-1"
+            lat={data.lat}
+            lon={data.lon}
+          />
+        )}
+        {data && (
+          <GoogleMapsCard
+            className="col-span-1 row-span-1"
+            lat={data.lat}
+            lon={data.lon}
+          />
+        )}
+        {data && (
+          <DailyWeather
+            data={data}
+            className="row-span-1 col-span-1 md:col-span-2"
+          />
+        )}
+        {data && (
+          <HourlyWeather
+            className="row-span-1 col-span-1 md:col-span-2"
+            data={data}
+          />
+        )}
+        {data && (
+          <GoogleMapsCard
+            className="col-span-1 row-span-1"
+            lat={data.lat}
+            lon={data.lon}
+          />
+        )}
       </CardContainer>
     </main>
   );
