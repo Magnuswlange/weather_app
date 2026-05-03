@@ -1,18 +1,19 @@
 import Card from "./Card";
 import type { OneCallData } from "../schemas/weatherSchema";
 import { motion } from "motion/react";
-import { parentVariant, childVariant } from "../animationUtils";
 import WeatherIcon from "./WeatherIcon";
 import { timeFmt } from "../utils/formatters";
+import { parentVariant, childVariant } from "../utils/animations";
 
 type Props = {
   data: OneCallData;
+  className?: string;
 };
 
-export default function HourlyWeather({ data }: Props) {
+export default function HourlyWeather({ data, className = "" }: Props) {
   return (
-    <Card title="Hourly Forecast (48h)" expand={true}>
-      <div className="flex gap-4 overflow-x-scroll">
+    <Card title="Hourly Forecast (48h)" className={className}>
+      <div className="flex gap-4 overflow-x-auto overflow-y-hidden h-full pb-4">
         {data?.hourly.map((hour) => (
           <motion.ul
             key={hour.dt}

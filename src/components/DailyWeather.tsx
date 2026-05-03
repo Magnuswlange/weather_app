@@ -1,54 +1,56 @@
 import { motion } from "motion/react";
 import type { OneCallData } from "../schemas/weatherSchema";
-import { childVariant, parentVariant } from "../animationUtils";
 import WeatherIcon from "./WeatherIcon";
 import Card from "./Card";
 import { dayFmt } from "../utils/formatters";
+import { parentVariant, childVariant } from "../utils/animations";
 
 type Props = {
   data: OneCallData;
+  className?: string;
 };
 
-export default function DailyWeather({ data }: Props) {
+export default function DailyWeather({ data, className = "" }: Props) {
   return (
-    <Card title="Daily Forecast" expand={true}>
-      <motion.ul
-        key={data?.daily?.[0]?.dt ?? "daily-loading"} // while fetching data from api sets key to loading, then once the api finishes fetching, the key will change and trigger child elements to re-render, causing the child elements to animate in.
-        variants={parentVariant}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.li
-          className="grid grid-cols-[1fr_1fr_1fr_1fr] font-semibold"
-          variants={childVariant}
-        >
-          <span>Day</span>
-          <span>Temperature</span>
-          <span>Feels Like</span>
-          <span>Weather</span>
-        </motion.li>
-
-        {data?.daily.map((day) => (
-          <motion.li
-            className="grid grid-cols-[1fr_1fr_1fr_1fr] items-center"
-            key={day.dt}
-            variants={childVariant}
+    <Card title="Daily Forecast" className={className}>
+      <div className="h-full overflow-y-auto overflow-x-hidden pr-4">
+        <table className="w-full table-fixed text-sm">
+          <thead className="sticky top-0 bg-primary hover:bg-secondary">
+            <tr className="text-left">
+              <th>Day</th>
+              <th>Temperature</th>
+              <th>Feels like</th>
+              <th>Weather</th>
+            </tr>
+          </thead>
+          <motion.tbody
+            variants={parentVariant}
+            initial="hidden"
+            animate="visible"
           >
-            <span>{dayFmt.format(new Date(day.dt * 1000))}</span>
-            <span>{Math.round(day.temp.day)}°C</span>
-            <span className="text-muted-foreground">
-              {Math.round(day.feels_like.day)}°C
-            </span>
-            <motion.div variants={childVariant}>
-              <WeatherIcon
-                className="h-15 w-15"
-                src={day.weather[0].icon}
-                alt="Daily weather icon"
-              />
-            </motion.div>
-          </motion.li>
-        ))}
-      </motion.ul>
+            {data?.daily.map((day) => (
+              <motion.tr
+                variants={childVariant}
+                key={day.dt}
+                className="border-t border-white/10"
+              >
+                <td className="tabular-nums">
+                  {dayFmt.format(new Date(day.dt * 1000))}
+                </td>
+                <td className="tabular-nums">{Math.round(day.temp.day)}°C</td>
+                <td className="text-muted-foreground tabular-nums">
+                  {Math.round(day.feels_like.day)}°C
+                </td>
+                <WeatherIcon
+                  className="inline-block h-8 w-8"
+                  src={day.weather[0].icon}
+                  alt="Daily weather icon"
+                />
+              </motion.tr>
+            ))}
+          </motion.tbody>
+        </table>
+      </div>
     </Card>
   );
 }
