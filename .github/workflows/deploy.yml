@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -31,16 +32,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      - name: Copy frontend build files to server
-        # use rsync to delete old files first. also copies just changes, so deployment is faster compared to using scp.
-        run: |
-          rsync -rltv --delete \
-            --no-owner --no-group --no-perms \
-            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-            ./frontend/dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/docker/weather_app/frontend/
-
-      - name: Copy backend source files to server (compose builds backend)
+      - name: Sync project files to server
         run: |
           rsync -rltv --delete \
             --no-owner --no-group --no-perms \
@@ -48,12 +40,12 @@ jobs:
             --exclude ".git" \
             --exclude ".env" \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-            ./backend/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/docker/weather_app/backend/
+            ./ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/docker/weather_app/
 
       - name: Rebuild and restart containers (stack)
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-          cd ~/docker_compose/weather_app/
+          cd /srv/docker/weather_app/
           docker compose up -d --build
           "

@@ -1,0 +1,21 @@
+services:
+  nginx_ws:
+    image: nginx:latest
+    container_name: weather_app
+    restart: unless-stopped
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    ports:
+      - 6768:80
+    command: nginx -g 'daemon off;'
+    entrypoint: /docker-entrypoint.sh
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3002:3000
+    restart: unless-stopped
