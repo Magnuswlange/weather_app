@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const weatherRouter = require("./routes/weather");
+const mapRouter = require("./routes/map");
 
 const logger = (req, res, next) => {
   console.log(req.method, req.path);
@@ -26,6 +27,7 @@ app.use(
 app.use(logger);
 app.use(express.json());
 app.use("/api/weather", weatherRouter);
+app.use("/api/map", mapRouter);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");

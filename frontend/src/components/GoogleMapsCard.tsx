@@ -1,5 +1,8 @@
-import { GOOGLE_MAPS_API_KEY } from "../config";
 import Card from "./Card";
+
+const BASE_URL = import.meta.env.DEV
+  ? "http://localhost:3000/api/map"
+  : "/api/map";
 
 type Props = {
   lat: number;
@@ -8,7 +11,7 @@ type Props = {
 };
 
 export default function GoogleMapsCard({ lat, lon, className = "" }: Props) {
-  const mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lon}&zoom=14&size=600x600&key=${GOOGLE_MAPS_API_KEY}`;
+  const mapSrc = `${BASE_URL}?lat=${lat}&lon=${lon}`;
 
   return (
     <Card title="Map" className={className}>
