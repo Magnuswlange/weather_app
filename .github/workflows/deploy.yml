@@ -20,10 +20,12 @@ jobs:
       - run: npm run build
 
       - name: Setup SSH key
+      # last line adds logging to see where the connection issue is
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo connected"
 
       - name: Copy build files (/dist) to nginx ws host
         # use rsync to delete old files first. also copies just changes, so deployment is faster compared to using scp.
