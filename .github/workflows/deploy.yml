@@ -38,7 +38,7 @@ jobs:
           mkdir -p /srv/docker/weather_app/backend
           {
             echo 'OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}' > /srv/docker/weather_app/backend/.env
-            echo 'GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}' > /srv/docker/weather_app/backend/.env
+            echo 'GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}' >> /srv/docker/weather_app/backend/.env
           }
           "
 
