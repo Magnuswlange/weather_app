@@ -1,0 +1,33 @@
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const weatherRouter = require("./routes/weather");
+const PORT = process.env.PORT;
+
+const logger = (req, res, next) => {
+  console.log(req.method, req.path);
+  next(); // don't hang, run next
+};
+
+// middleware: function that runs between the request and route handler: req -> middleware -> res.
+app.use(
+  cors({
+    origin: [
+      "http://localhost:4000",
+      "http://localhost:5173",
+      "http://127.0.0.1:4000",
+      "http://127.0.0.1:5173",
+      "http://weather.magnushome.xyz",
+      "https://weather.magnushome.xyz",
+    ],
+  }),
+);
+
+app.use(logger);
+app.use(express.json());
+app.use("/api/weather", weatherRouter);
+
+app.listen(PORT, () => {
+  console.log("Listening on port: ", PORT);
+});
