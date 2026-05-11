@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const weatherRouter = require("./routes/weather");
-const PORT = process.env.PORT;
 
 const logger = (req, res, next) => {
   console.log(req.method, req.path);
@@ -28,6 +27,6 @@ app.use(logger);
 app.use(express.json());
 app.use("/api/weather", weatherRouter);
 
-app.listen(PORT, () => {
-  console.log("Listening on port: ", PORT);
+app.listen(3000, () => {
+  console.log("Listening on port 3000");
 });
