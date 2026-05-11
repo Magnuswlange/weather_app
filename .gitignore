@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 expressions.txt
 .env
+.vite/
