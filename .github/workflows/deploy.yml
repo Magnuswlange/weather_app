@@ -32,6 +32,13 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+      - name: Create /backend/.env on server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          mkdir -p /srv/docker/weather_app/backend
+          echo 'OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}' > /srv/docker/weather_app/backend/.env
+          "
+
       - name: Sync project files to server
         run: |
           rsync -rltv --delete \
